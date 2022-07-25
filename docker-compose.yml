@@ -46,5 +46,19 @@ services:
     depends_on:
       - kafka
     restart: always
+    volumes:
+      - ./jars:/opt
     environment:
       STREAMS_BOOTSTRAP_SERVERS: kafka:9092
+      OTEL_SERVICE_NAME: kafka-hello-stream
+      # OTEL_TRACES_EXPORTER: logging
+      # OTEL_METRICS_EXPORTER: none
+      # OTEL_LOGS_EXPORTER: none
+      CISCO_TOKEN: 
+      JAVA_TOOL_OPTIONS: -javaagent:/opt/cisco-telescope-javaagent.jar -Dotel.instrumentation.kafka.experimental-span-attributes=true
+
+
+
+# kafka-console-producer \
+#     --bootstrap-server localhost:9092 \
+#     --topic hello

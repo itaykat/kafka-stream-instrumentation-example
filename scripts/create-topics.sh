@@ -1,5 +1,6 @@
 echo "Waiting for Kafka to come online..."
 
+# confluent-docker-utils
 cub kafka-ready -b kafka:9092 1 20
 
 # create the users topic

@@ -2,7 +2,6 @@ package com.example;
 
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -11,7 +10,6 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
 
 public class KafkaHelloStream {
-  private static final AtomicBoolean appCjhecker = new AtomicBoolean(false);
 
   public static void main(String[] args) throws InterruptedException {
     Map<String, String> envs = System.getenv();
@@ -29,6 +27,7 @@ public class KafkaHelloStream {
   }
 
   private static Properties creteKafkaConfig(Map<String, String> envs) {
+
     Properties config = new Properties();
     config.put(StreamsConfig.APPLICATION_ID_CONFIG, "hello-stream");
     config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, envs.get("STREAMS_BOOTSTRAP_SERVERS"));
