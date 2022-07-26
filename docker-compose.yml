@@ -40,7 +40,7 @@ services:
     volumes:
       - ./scripts:/scripts
 
-  app:
+  kafka-stream-app:
     image: kafka-hello-stream
     container_name: kafka-hello-stream
     depends_on:
@@ -51,14 +51,27 @@ services:
     environment:
       STREAMS_BOOTSTRAP_SERVERS: kafka:9092
       OTEL_SERVICE_NAME: kafka-hello-stream
-      # OTEL_TRACES_EXPORTER: logging
-      # OTEL_METRICS_EXPORTER: none
-      # OTEL_LOGS_EXPORTER: none
-      CISCO_TOKEN: 
-      JAVA_TOOL_OPTIONS: -javaagent:/opt/cisco-telescope-javaagent.jar -Dotel.instrumentation.kafka.experimental-span-attributes=true
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
+      OTEL_EXPORTER_OTLP_ENDPOINT: https://tempo-us-central1.grafana.net:443
+      # OTEL_EXPORTER_OTLP_TRACES_HEADERS:
+      JAVA_TOOL_OPTIONS: -javaagent:/opt/opentelemetry-javaagent.jar -Dotel.instrumentation.kafka.experimental-span-attributes=true
 
-
-
-# kafka-console-producer \
-#     --bootstrap-server localhost:9092 \
-#     --topic hello
+  kafka-producer-app:
+    image: kafka-hello-producer
+    container_name: kafka-hello-producer
+    depends_on:
+      - kafka
+    restart: always
+    volumes:
+      - ./jars:/opt
+    environment:
+      STREAMS_BOOTSTRAP_SERVERS: kafka:9092
+      OTEL_SERVICE_NAME: kafka-hello-producer
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
+      OTEL_EXPORTER_OTLP_ENDPOINT: https://tempo-us-central1.grafana.net:443
+      # OTEL_EXPORTER_OTLP_TRACES_HEADERS:
+      JAVA_TOOL_OPTIONS: -javaagent:/opt/opentelemetry-javaagent.jar -Dotel.instrumentation.kafka.experimental-span-attributes=true
