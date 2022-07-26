@@ -55,7 +55,7 @@ services:
       OTEL_METRICS_EXPORTER: none
       OTEL_LOGS_EXPORTER: none
       OTEL_EXPORTER_OTLP_ENDPOINT: https://tempo-us-central1.grafana.net:443
-      # OTEL_EXPORTER_OTLP_TRACES_HEADERS:
+      OTEL_EXPORTER_OTLP_TRACES_HEADERS: authorization=<Base64 Grafana Tempo user:password goes here>
       JAVA_TOOL_OPTIONS: -javaagent:/opt/opentelemetry-javaagent.jar -Dotel.instrumentation.kafka.experimental-span-attributes=true
 
   kafka-producer-app:
@@ -73,5 +73,5 @@ services:
       OTEL_METRICS_EXPORTER: none
       OTEL_LOGS_EXPORTER: none
       OTEL_EXPORTER_OTLP_ENDPOINT: https://tempo-us-central1.grafana.net:443
-      # OTEL_EXPORTER_OTLP_TRACES_HEADERS:
+      OTEL_EXPORTER_OTLP_TRACES_HEADERS: authorization=<Base64 Grafana Tempo user:password goes here>
       JAVA_TOOL_OPTIONS: -javaagent:/opt/opentelemetry-javaagent.jar -Dotel.instrumentation.kafka.experimental-span-attributes=true
